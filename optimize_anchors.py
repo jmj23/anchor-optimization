@@ -3,7 +3,7 @@ import csv
 import argparse
 import sys
 import os
-
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import numpy as np
 import scipy.optimize
 
@@ -128,8 +128,10 @@ if __name__ == "__main__":
 
     with _open_for_csv(args.annotations) as file:
         for line, row in enumerate(csv.reader(file, delimiter=',')):
-            x1, y1, x2, y2 = list(map(lambda x: int(x), row[1:5]))
-
+            try:
+                x1, y1, x2, y2 = list(map(lambda x: int(x), row[1:5]))
+            except ValueError:
+                continue 
             if not x1 or not y1 or not x2 or not y2:
                 continue
 
